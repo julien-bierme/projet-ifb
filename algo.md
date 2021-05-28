@@ -41,6 +41,29 @@
     
     sortir mode, difficulte, menu
         
+### fonction random bateau debut de la partie
+    struct boat position[5];
+    pour i de 1 à 4 par pallier de 1:
+        int xorientation = rand() %2
+        si xorientation = 0 
+            strcpy(position[i].orientation, "V")
+        sinon 
+            strcpy(position[i].orientation, "H")
+        fin si 
+        position[i].btaille = i +1
+        position[i].bligne = rand() %10 +1
+        position[i].bcolonne = rand() %10 +2
+    fin pour
+    
+    int xorientation = rand() %2
+        si xorientation = 0 
+            strcpy(position[5].orientation, "V")
+        sinon 
+            strcpy(position[5].orientation, "H")
+        fin si 
+        position[5].btaille = 3
+        position[5].bligne = rand() %10 +1
+        position[5].bcolonne = rand() %10 +2
 
 ## Structures :
 
