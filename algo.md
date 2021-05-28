@@ -75,7 +75,29 @@
         faire:
             position[5].bcolonne = rand() %10 +1
         tant que : (position[5].bcolonne=position[1].bcolonne || position[5].bcolonne=position[2].bcolonne || position[5].bcolonne=position[3].bcolonne || position[5].bcolonne=position[4].bcolonne)
-    Renvoi : struct boat position[5];
+    
+    struct boat_complet[17];
+    int j = 5
+    Pour i de 1 à 5 pas de 1 :
+        boat_complet[i].bligne=boat[i].bligne
+        boat_complet[i].bcolonne=boat[i].bcolonne
+        
+        si boat_complet[i].orientation = "V"
+            pour k de 1 à boat[i].btaille pas de 1:
+                j = j+1
+                boat_complet[j].bligne = boat[i].bligne
+                boat_complet[j].bcolonne = boat[i+k].bcolonne
+            fin pour
+        fin si
+        
+        si boat_complet[i].orientation = "H"
+            pour k de 1 à boat[i].btaille pas de 1:
+                j = j+1
+                boat_complet[j].bcolonne = boat[i].bcolonne
+                boat_complet[j].bligne = boat[i+k].bligne
+            fin pour
+        fin si
+    fin pour
         
 ### fonction show grid
     struct grid;
@@ -107,6 +129,12 @@ int longueur = 10
 char orientation
 
 int btaille [2;5]
+
+int bligne [1;10]
+
+int bcolonne[1;10]
+
+### structure boat_complet
 
 int bligne [1;10]
 
