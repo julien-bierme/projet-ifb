@@ -4,7 +4,7 @@
 
 Fontions à créer :
 * choix de la cible
-* fonction pour chaque missile
+* ~*fonction pour chaque missile*~
 * ~*fonction show grid*~
 * fonction is alive
 * ~*fonction random bateau debut de la partie*~
