@@ -75,12 +75,16 @@
         faire:
             position[5].bcolonne = rand() %10 +1
         tant que : (position[5].bcolonne=position[1].bcolonne || position[5].bcolonne=position[2].bcolonne || position[5].bcolonne=position[3].bcolonne || position[5].bcolonne=position[4].bcolonne)
+        
+### fonction show grid
+    struct grid;
+    écrire("Grille:", grid.grille)
 
 ## Structures :
 
 ### structure grid
 
-char noms [10][10] ={ ‘‘----------’’, ‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’};
+char grille [10][10] ={ ‘‘----------’’, ‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’,‘‘----------’’};
 
 int largeur = 10
 
