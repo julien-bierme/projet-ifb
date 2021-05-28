@@ -81,10 +81,16 @@
     struct grid;
     écrire("Grille:", grid.grille)
     
-### fonction is alive
-    prendre : struct boat position[5];
-    struct grid;
-    
+### fonction choix cible
+    int ciblel, ciblec;
+    struct cible;
+    écrire : "Donner la coordonées ligne de la cible :"
+    lire : ciblel
+    écrire : "Donner la coordonées colonne de la cible :"
+    lire : ciblec
+    écrire : "Vous avez choisis la cible de coordonnées (%d , %d )", ciblel, ciblec;
+    cible.cibleligne = ciblel
+    cible.ciblecolonne = ciblec
 
 ## Structures :
 
@@ -114,4 +120,6 @@ int msimple
 
 int mtactique
 
-
+### structure cible
+int cibleligne;
+int ciblecolonne;
