@@ -148,6 +148,8 @@ int msimple
 
 int mtactique
 
+int mbombe
+
 ### structure cible
 int cibleligne;
 int ciblecolonne;
