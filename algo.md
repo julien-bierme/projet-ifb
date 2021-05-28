@@ -131,6 +131,23 @@
     si test != 0 :
         grid.grille[ciblec][ciblel] = "X"
     else : grid.grille[ciblec][ciblel] = "O"
+    
+### fonction mtactique
+    Prendre : ciblel
+    Prendre : ciblec
+    Prendre : struct bcomplet boat_complet[17]
+    struct grid;
+    struct bcomplet
+    int test = 0;
+    Pour i de 1 à 17 pas de 1 :
+        if ciblel= boat_complet[i]
+            test = test +1
+            bcomplet[i].touche = 2
+        fin si
+    fin pour
+    si test != 0 :
+        grid.grille[ciblec][ciblel] = "X"
+    else : grid.grille[ciblec][ciblel] = "O"
 
 ## Structures :
 
