@@ -9,5 +9,5 @@ Fontions à créer :
 * fonction is alive
 * *fonction random bateau debut de la partie*
 * fonction alive/load
-* *structure inventory*
+* ~*structure inventory*~
 * main
