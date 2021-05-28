@@ -50,9 +50,16 @@
         sinon 
             strcpy(position[i].orientation, "H")
         fin si 
+        
         position[i].btaille = i +1
-        position[i].bligne = rand() %10 +1
-        position[i].bcolonne = rand() %10 +2
+        
+        faire:
+            position[i].bligne = rand() %10 +1
+        tant que : (position[i].bligne=position[1].bligne || position[i].bligne=position[2].bligne || position[i].bligne=position[3].bligne || position[i].bligne=position[4].bligne)
+        faire:
+            position[i].bcolonne = rand() %10 +1
+        tant que : (position[i].bcolonne=position[1].bcolonne || position[i].bcolonne=position[2].bcolonne || position[i].bcolonne=position[3].bcolonne || position[i].bcolonne=position[4].bcolonne)
+    
     fin pour
     
     int xorientation = rand() %2
@@ -62,8 +69,12 @@
             strcpy(position[5].orientation, "H")
         fin si 
         position[5].btaille = 3
-        position[5].bligne = rand() %10 +1
-        position[5].bcolonne = rand() %10 +2
+        faire:
+            position[5].bligne = rand() %10 +1
+        tant que : (position[5].bligne=position[1].bligne || position[5].bligne=position[2].bligne || position[5].bligne=position[3].bligne || position[5].bligne=position[4].bligne)
+        faire:
+            position[5].bcolonne = rand() %10 +1
+        tant que : (position[5].bcolonne=position[1].bcolonne || position[5].bcolonne=position[2].bcolonne || position[5].bcolonne=position[3].bcolonne || position[5].bcolonne=position[4].bcolonne)
 
 ## Structures :
 
