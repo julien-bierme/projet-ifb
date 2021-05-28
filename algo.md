@@ -114,6 +114,23 @@
     écrire : "Vous avez choisis la cible de coordonnées (%d , %d )", ciblel, ciblec;
     cible.cibleligne = ciblel
     cible.ciblecolonne = ciblec
+    
+### fonction msimple
+    Prendre : ciblel
+    Prendre : ciblec
+    Prendre : struct bcomplet boat_complet[17]
+    struct grid;
+    struct bcomplet
+    int test = 0;
+    Pour i de 1 à 17 pas de 1 :
+        if ciblel= boat_complet[i]
+            test = test +1
+            bcomplet[i].touche = 1
+        fin si
+    fin pour
+    si test != 0 :
+        grid.grille[ciblec][ciblel] = "X"
+    else : grid.grille[ciblec][ciblel] = "O"
 
 ## Structures :
 
@@ -140,6 +157,8 @@ int bcolonne[1;10]
 int bligne [1;10]
 
 int bcolonne[1;10]
+
+int touche = 0;
 
 ### structure inventory
 
