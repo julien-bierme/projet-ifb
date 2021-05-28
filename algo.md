@@ -42,7 +42,7 @@
     sortir mode, difficulte, menu
         
 ### fonction random bateau debut de la partie
-    struct boat position[5];
+    struct bateau boat[5];
     pour i de 1 à 4 par pallier de 1:
         int xorientation = rand() %2
         si xorientation = 0 
@@ -76,7 +76,7 @@
             position[5].bcolonne = rand() %10 +1
         tant que : (position[5].bcolonne=position[1].bcolonne || position[5].bcolonne=position[2].bcolonne || position[5].bcolonne=position[3].bcolonne || position[5].bcolonne=position[4].bcolonne)
     
-    struct boat_complet[17];
+    struct bcomplet boat_complet[17];
     int j = 5
     Pour i de 1 à 5 pas de 1 :
         boat_complet[i].bligne=boat[i].bligne
@@ -98,7 +98,7 @@
             fin pour
         fin si
     fin pour
-    Renvoi : struct boat_complet position[17];
+    Renvoi : struct bcomplet boat_complet[17];
         
 ### fonction show grid
     struct grid;
@@ -125,7 +125,7 @@ int largeur = 10
  
 int longueur = 10
 
-### structure boat
+### structure bateau
 
 char orientation
 
@@ -135,7 +135,7 @@ int bligne [1;10]
 
 int bcolonne[1;10]
 
-### structure boat_complet
+### structure bcomplet
 
 int bligne [1;10]
 
