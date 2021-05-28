@@ -98,6 +98,7 @@
             fin pour
         fin si
     fin pour
+    Renvoi : struct boat_complet position[17];
         
 ### fonction show grid
     struct grid;
