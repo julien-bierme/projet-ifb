@@ -86,7 +86,7 @@
             pour k de 1 à boat[i].btaille pas de 1:
                 j = j+1
                 boat_complet[j].bligne = boat[i].bligne
-                boat_complet[j].bcolonne = boat[i+k].bcolonne
+                boat_complet[j].bcolonne = boat[i].bcolonne+k
             fin pour
         fin si
         
@@ -94,7 +94,7 @@
             pour k de 1 à boat[i].btaille pas de 1:
                 j = j+1
                 boat_complet[j].bcolonne = boat[i].bcolonne
-                boat_complet[j].bligne = boat[i+k].bligne
+                boat_complet[j].bligne = boat[i].bligne+k
             fin pour
         fin si
     fin pour
