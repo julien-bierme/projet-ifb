@@ -59,6 +59,12 @@ int modes(char* CHOIX,char* choix1,char* choix2,char* choix3) {
     
     return menu;
 }
+
+/*
+ * Fonction qui vide le buffer après une lecture de variable
+ * @param
+ * @return
+ */
 void clean_stdin(void)
 {
     int c;
