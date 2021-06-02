@@ -4,14 +4,26 @@
 int Choix_cible();
 int Choix_missile();
 void clean_stdin();
+struct cible Enregistrement();
+
+struct cible{
+    int ciblec;
+    int ciblel;
+    int missile;
+};
 
 int main(int argc, char const *argv[]) {
     int a=0;
     int nbcoup= 1;
 
-    a = Choix_cible(nbcoup,"Colonne - Choisir l'ordonnee de la cible entre 1 et 10");
+    struct cible coup;
+    coup = Enregistrement(nbcoup);
+
+    a = coup.ciblel;
     printf("test : %d\n",a);
-    a=Choix_missile();
+    a = coup.ciblec;
+    printf("test : %d\n",a);
+    a = coup.missile;
     printf("test : %d\n",a);
 
     return 0;
@@ -37,7 +49,7 @@ int Choix_cible(int nbcoup, char* message) {
     if (cible < 1 || cible > 10) {
         do {
             printf("Ecrire un entier entre 1 et 10 \n");
-            printf("Colonne - Choisir l'ordonnee de la cible entre 1 et 10 \n");
+            printf("%s \n",message);
             scanf("%c", &keycible);
             clean_stdin();
             cible = atoi(&keycible);
@@ -92,6 +104,28 @@ int Choix_missile(){
     return missile;
 }
 
+/*
+ * Fonction qui rempli la structure cible avec les fonctions Choix_cible et Choix_missile
+ * @param
+ * @return a struct - structure cible locale
+ */
+struct cible Enregistrement(int nbcoup){
+
+    struct cible local; // variable local;
+
+    //remplissage de la structure cible locale avec les fonctions Choix_cible et Choix_missile
+    local.ciblec = Choix_cible(nbcoup,"Colonne - Choisir l'ordonnee de la cible entre 1 et 10");
+    local.ciblel = Choix_cible(nbcoup,"Ligne - Choisir l'abscisse de la cible entre 1 et 10");
+    local.missile = Choix_missile();
+
+    return local; //retourner une copie de la structure cible locale
+}
+
+/*
+ * Fonction qui vide le buffer après une lecture de variable
+ * @param
+ * @return
+ */
 void clean_stdin(void)
 {
     int c;
