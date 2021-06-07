@@ -7,8 +7,8 @@ void clean_stdin();
 struct cible Enregistrement();
 
 struct cible{
-    int ciblec;
-    int ciblel;
+    int cibley;
+    int ciblex;
     int missile;
 };
 
@@ -19,9 +19,9 @@ int main(int argc, char const *argv[]) {
     struct cible coup;
     coup = Enregistrement(nbcoup);
 
-    a = coup.ciblel;
+    a = coup.ciblex;
     printf("test : %d\n",a);
-    a = coup.ciblec;
+    a = coup.cibley;
     printf("test : %d\n",a);
     a = coup.missile;
     printf("test : %d\n",a);
@@ -114,8 +114,8 @@ struct cible Enregistrement(int nbcoup){
     struct cible local; // variable local;
 
     //remplissage de la structure cible locale avec les fonctions Choix_cible et Choix_missile
-    local.ciblec = Choix_cible(nbcoup,"Colonne - Choisir l'ordonnee de la cible entre 1 et 10");
-    local.ciblel = Choix_cible(nbcoup,"Ligne - Choisir l'abscisse de la cible entre 1 et 10");
+    local.cibley = Choix_cible(nbcoup,"Ordonnée - Choisir l'ordonnee de la cible entre 1 et 10");
+    local.ciblex = Choix_cible(nbcoup,"Abscisse - Choisir l'abscisse de la cible entre 1 et 10");
     local.missile = Choix_missile();
 
     return local; //retourner une copie de la structure cible locale
