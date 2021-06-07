@@ -12,7 +12,7 @@ typedef struct{
 ;
 
 int test(int taille, int abscisse, int ordonnee, char orientation);
-void matrice_test(char matrice_test[10][10]);
+void matrice_affich(char matrice[10][10]);
 
 
 int main(){
@@ -48,9 +48,9 @@ int main(){
             }
         }
 
-        printf("bateau n:%c, %d, %d, %d\n",orientation, nb, boat[nb].ordonnee, boat[nb].abscisse);
+        printf("bateau n:%d, %c, %d, %d\n", nb, orientation, boat[nb].ordonnee, boat[nb].abscisse);
     }
-    void matrice_test(matrice_test[10][10]);
+    void matrice_affich(char matrice_test[10][10]);
     return 0;
 }
 
@@ -78,10 +78,10 @@ int test(int taille, int abscisse, int ordonnee, char orientation){
     }
 }
 
-void matrice_test(char matrice_test[10][10]) {
+void matrice_affich(char matrice[10][10]) {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
-            printf("%c ", matrice_test[i][j]);
+            printf("%c ", matrice[i][j]);
         }
         printf("/n");
     }
