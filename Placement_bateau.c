@@ -12,7 +12,7 @@ typedef struct{
 }bateau
 ;
 
-int test(int taille, int abscisse, int ordonnee, char orientation);
+int test(int taille, int abscisse, int ordonnee, char orientation, char matrice[10][10]);
 
 void matrice_affich(char matrice[10][10]);
 
@@ -28,15 +28,20 @@ int main(){
     
     for(int nb=0; nb<4; nb++){  /* Bateau 2, 3, 4, 5 */
         taille = nb+2;
-        orientation = 'h';
-        boat[nb].orientation ='h';
+        int choix = rand()%2;
+        if (choix == 1){
+            orientation = 'h';
+        }else{
+            orientation = 'v';
+        }
+        boat[nb].orientation = orientation;
         boat[nb].taille=taille;
         
         do{
             abscisse = rand()%10;  /* randomise ordonnée et abscisse */
             ordonnee = rand()%10;
             
-            retour=test(taille, abscisse, ordonnee, orientation); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+            retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
         }while(retour==1);
         
         boat[nb].abscisse=abscisse; /* attribue les valeur définitive d'un bateau */
@@ -48,45 +53,84 @@ int main(){
             }
 
         }else{
-            for (int i=0; i < taille-1; i++) {
+            for (int i=0; i < taille; i++) {
                 matrice_test[boat[nb].ordonnee+i][boat[nb].abscisse] = taille+'0';
             }
         }
-
-        printf("bateau n:%d, %c, %d, %d\n", nb, orientation, boat[nb].ordonnee, boat[nb].abscisse); /* Print les infos du bateau */
+        matrice_affich(matrice_test);
+        printf("\nBateau taille:%d, %c, %d, %d \n\n", taille, orientation, boat[nb].ordonnee, boat[nb].abscisse); /* Print les infos du bateau */
     }
+/*___________________________________________________PARTIE POUR 2° be=ateau de 3______________________________________________________________________________________*/    
+    
+    taille = 3;
+    int choix = rand()%2;
+    if (choix == 1){
+        orientation = 'h';
+    }else{
+        orientation = 'v';
+    }
+    boat[4].orientation = orientation;
+    boat[4].taille=taille; 
+    do{
+            abscisse = rand()%10;  /* randomise ordonnée et abscisse */
+            ordonnee = rand()%10;
+            
+            retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+        }while(retour==1);
+        
+        boat[4].abscisse=abscisse; /* attribue les valeur définitive d'un bateau */
+        boat[4].ordonnee=ordonnee;
+
+        if (boat[4].orientation =='h'){  /* Pose les bateaux sur la matrice test */
+            for (int i=0; i < taille; i++){
+                matrice_test[boat[4].ordonnee][boat[4].abscisse+i] = taille+'0';
+            }
+
+        }else{
+            for (int i=0; i < taille; i++) {
+                matrice_test[boat[4].ordonnee+i][boat[4].abscisse] = taille+'0';
+            }
+        }
+        matrice_affich(matrice_test);
+        printf("\nBateau taille:%d, %c, %d, %d \n\n", taille, orientation, boat[4].ordonnee, boat[4].abscisse); /* Print les infos du bateau */ 
+/*______________________________________________________________________________________________________________________________________________________________________*/
     
     matrice_affich(matrice_test);
+    printf("FINAL");
     return 0;
 }
 
-int test(int taille, int abscisse, int ordonnee, char orientation){  /* vérifie possibibilité poser bateau */
+int test(int taille, int abscisse, int ordonnee, char orientation, char matrice[10][10]){  /* vérifie possibibilité poser bateau */
     int retour=0;
-    char matrice[10][10]={0};
     for (int i = 0; i < taille; i++){
         if (orientation=='v'){
-            if (ordonnee+i<11 && matrice[ordonnee+i][abscisse]==0){
-                matrice[ordonnee+i][abscisse]=taille;
+            if (ordonnee+i<10 && matrice[ordonnee+i][abscisse]==0){
+                printf("TEST bateau taille:%d n:%d %c o:%d a:%d\n",taille,i+1,orientation,ordonnee+i,abscisse);
+                retour=0;
+                printf("reussite\n");   
             }else{
                 retour=1;
+                printf("echec\n");
             }
         }
         else if (orientation=='h'){
-            if(abscisse+i<11 && matrice[ordonnee][abscisse+i]==0){
-                matrice[ordonnee][abscisse+i]=taille;
+            if(abscisse+i<10 && matrice[ordonnee][abscisse+i]==0){
+                printf("TEST bateau taille : %d n:%d %c o:%d a:%d\n",taille,i+1,orientation,ordonnee,abscisse+i); 
+                retour=0;
+                printf("reussite\n");
             }else{
                 retour=1;
+                printf("echec\n");
             }
         }else{
             retour=1;
-
         }
     }
     return retour;
 }
 
 void matrice_affich(char matrice[10][10]){
-    printf("test\n");
+    printf("\nTEST PRINT GRID\n");
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 10; j++) {
             if (matrice[i][j]==0){
@@ -97,4 +141,5 @@ void matrice_affich(char matrice[10][10]){
         }
         printf("\n");
     }
+    printf("\n");
 }
