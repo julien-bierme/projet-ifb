@@ -8,8 +8,8 @@ int Choix_cible();
 int Choix_missile();
 void clean_stdin();
 struct cible Enregistrement();
-struct grid msimple();
-struct grid mtactique();
+struct grid fire_simple();
+struct grid fire_tactique();
 
 struct cible{
     int cibley;
@@ -65,7 +65,7 @@ int main(int argc, char const *argv[]) {
     struct bcomplet boat_complet[17];
 
     if (coup.missile == 1){
-        grille=msimple(coup,grille,boat_complet);
+        grille=fire_simple(coup,grille,boat_complet);
         show_grid(grille);
     }
 
@@ -76,7 +76,7 @@ int main(int argc, char const *argv[]) {
 /*
  * Fonction qui réinitialise la structure grid
  * @param
- * @return
+ * @return struct grid debut_grille - structure de la grille
  */
 struct grid debut_grille(void){
     struct grid grille1;
@@ -95,7 +95,7 @@ struct grid debut_grille(void){
 
 /*
  * Fonction qui affiche la grille avec la structure grid
- * @param
+ * @param struct grid grille0 - structure de la grille
  * @return
  */
 void show_grid(struct grid grille0){
@@ -260,10 +260,12 @@ struct cible Enregistrement(int nbcoup){
 
 /*
  * Fonction qui tire un missile simple en appelant la fonction Enregistrement
- * @param nbcoup-nombre de coups
- * @return
+ * @param struct cible msimple - structure de la cible
+ * @param struct grid grille1 - structure de la grille
+ * @param struct bcomplet boat_completms[17] - structure des 17 cases des bateaux
+ * @return struct grid grille1 - structure de la grille
  */
-struct grid msimple(struct cible msimple,struct grid grille1,struct bcomplet boat_completms[17]){
+struct grid fire_simple(struct cible msimple,struct grid grille1,struct bcomplet boat_completms[17]){
 
     for (int i = 1; i < 18; i++)
     {
@@ -278,10 +280,12 @@ struct grid msimple(struct cible msimple,struct grid grille1,struct bcomplet boa
 
 /*
  * Fonction qui tire un missile tactique en appelant la fonction Enregistrement
- * @param nbcoup-nombre de coups
- * @return
+ * @param struct cible mtactique - structure de la cible
+ * @param struct grid grille2 - structure de la grille
+ * @param struct bcomplet boat_completmt[17] - structure des 17 cases des bateaux
+ * @return struct grid grille2 - structure de la grille
  */
-struct grid mtactique(struct cible mtactique,struct grid grille2,struct bcomplet boat_completmt[17]){
+struct grid fire_tactique(struct cible mtactique,struct grid grille2,struct bcomplet boat_completmt[17]){
 
     int coupfatal=0;
 
