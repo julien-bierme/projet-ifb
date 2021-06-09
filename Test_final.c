@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int modes(char* CHOIX, char* choix1,char* choix2,char* choix3);
 struct grid debut_grille();
@@ -10,6 +11,18 @@ void clean_stdin();
 struct cible Enregistrement();
 struct grid fire_simple();
 struct grid fire_tactique();
+struct bcomplet random();
+int test(int taille, int abscisse, int ordonnee, char orientation, char matrice[10][10]);
+void matrice_affich();
+
+/* structure type pour des bateaux*/
+typedef struct{
+    char orientation;
+    int taille;
+    int abscisse;
+    int ordonnee;
+}bateau
+;
 
 struct cible{
     int cibley;
@@ -165,6 +178,160 @@ int modes(char* CHOIX,char* choix1,char* choix2,char* choix3) {
 
     return menu;
 }
+
+
+/*
+ * Fonction gérant l'attribution des valeur aux bateaux
+ * @param
+ * @return a struct - la structure bcomplet random[17]
+ */
+struct bcomplet random(){
+    srand(time(0));
+
+    int taille, abscisse, ordonnee, retour;  /* Init des Variables */
+    char orientation;
+    char matrice_test[10][10]={0};
+
+    bateau boat[5];  /* 5 Unit Bateau */
+
+    for(int nb=0; nb<4; nb++){  /* Bateau 2, 3, 4, 5 */
+        taille = nb+2;
+        int choix = rand()%2;
+        if (choix == 1){
+            orientation = 'h';
+        }else{
+            orientation = 'v';
+        }
+        boat[nb].orientation = orientation;
+        boat[nb].taille=taille;
+
+        do{
+            abscisse = rand()%10;  /* randomise ordonnée et abscisse */
+            ordonnee = rand()%10;
+
+            retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+        }while(retour==1);
+
+        boat[nb].abscisse=abscisse; /* attribue les valeur définitive d'un bateau */
+        boat[nb].ordonnee=ordonnee;
+
+        if (boat[nb].orientation =='h'){  /* Pose les bateaux sur la matrice test */
+            for (int i=0; i < taille; i++){
+                matrice_test[boat[nb].ordonnee][boat[nb].abscisse+i] = taille+'0';
+            }
+
+        }else{
+            for (int i=0; i < taille; i++) {
+                matrice_test[boat[nb].ordonnee+i][boat[nb].abscisse] = taille+'0';
+            }
+        }
+        //matrice_affich(matrice_test);
+    }
+/*___________________________________________________PARTIE POUR 2'eme bateau de 3______________________________________________________________________________________*/
+
+    taille = 3;
+    int choix = rand()%2;
+    if (choix == 1){
+        orientation = 'h';
+    }else{
+        orientation = 'v';
+    }
+    boat[4].orientation = orientation;
+    boat[4].taille=taille;
+    do{
+        abscisse = rand()%10;  /* randomise ordonnée et abscisse */
+        ordonnee = rand()%10;
+
+        retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+    }while(retour==1);
+
+    boat[4].abscisse=abscisse; /* attribue les valeur définitive d'un bateau */
+    boat[4].ordonnee=ordonnee;
+
+    if (boat[4].orientation =='h'){  /* Pose les bateaux sur la matrice test */
+        for (int i=0; i < taille; i++){
+            matrice_test[boat[4].ordonnee][boat[4].abscisse+i] = taille+'0';
+        }
+
+    }else{
+        for (int i=0; i < taille; i++) {
+            matrice_test[boat[4].ordonnee+i][boat[4].abscisse] = taille+'0';
+        }
+    }
+    //matrice_affich(matrice_test);
+/*______________________________________________________________________________________________________________________________________________________________________*/
+
+
+
+    struct bcomplet bateaux[17];
+    int incrementation = 0;
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            if (matrice_test[i][j] != '0'){
+                incrementation = incrementation +1;
+                bateaux[incrementation].nboat = atoi(&matrice_test[i][j]);
+                bateaux[incrementation].boaty = i;
+                bateaux[incrementation].boatx = j;
+                bateaux[incrementation].touche = 0;
+            }
+        }
+    }
+
+    return bateaux[17];
+}
+
+/*
+ * Fonction qui va tester si valeur du bateau peut être contenu dans toute la grille sans se chevaucher
+ * @param a integer - la taille
+ * @param a integer - l'abscisse
+ * @param a integer - l'ordonee
+ * @param a char - l'orientattion
+ * @param a char - la matrice test
+ * @return a integer - le test 0 ou 1
+ */
+int test(int taille, int abscisse, int ordonnee, char orientation, char matrice[10][10]){  /* vérifie possibibilité poser bateau */
+    int retour=0;
+    for (int i = 0; i < taille; i++){
+        if (orientation=='v'){
+            if (ordonnee+i<10 && matrice[ordonnee+i][abscisse]==0){
+            }else{
+                retour=1;
+            }
+        }
+        else if (orientation=='h'){
+            if(abscisse+i<10 && matrice[ordonnee][abscisse+i]==0){
+            }else{
+                retour=1;
+            }
+        }else{
+            retour=1;
+        }
+    }
+    return retour;
+}
+
+/*
+ * Fonction qui affiche la matrice test en une grille 10*10 (dev)
+ * @param a char - la matrice test
+ * @return
+ */
+void matrice_affich(char matrice[10][10]){
+    printf("\nTEST PRINT GRID\n");
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            if (matrice[i][j]==0){
+                printf("x ");
+            }else{
+                printf("%c ",matrice[i][j]);
+            }
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
 
 /*
  * Fonction qui prend la valeur du nombre de coup et qui renvoit la valeur de la coordonée de la cible
