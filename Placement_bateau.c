@@ -58,7 +58,6 @@ int main(){
             }
         }
         matrice_affich(matrice_test);
-        printf("\nBateau taille:%d, %c, %d, %d \n\n", taille, orientation, boat[nb].ordonnee, boat[nb].abscisse); /* Print les infos du bateau */
     }
 /*___________________________________________________PARTIE POUR 2° be=ateau de 3______________________________________________________________________________________*/    
     
@@ -92,11 +91,9 @@ int main(){
             }
         }
         matrice_affich(matrice_test);
-        printf("\nBateau taille:%d, %c, %d, %d \n\n", taille, orientation, boat[4].ordonnee, boat[4].abscisse); /* Print les infos du bateau */ 
 /*______________________________________________________________________________________________________________________________________________________________________*/
     
     matrice_affich(matrice_test);
-    printf("FINAL");
     return 0;
 }
 
@@ -105,22 +102,14 @@ int test(int taille, int abscisse, int ordonnee, char orientation, char matrice[
     for (int i = 0; i < taille; i++){
         if (orientation=='v'){
             if (ordonnee+i<10 && matrice[ordonnee+i][abscisse]==0){
-                printf("TEST bateau taille:%d n:%d %c o:%d a:%d\n",taille,i+1,orientation,ordonnee+i,abscisse);
-                retour=0;
-                printf("reussite\n");   
             }else{
                 retour=1;
-                printf("echec\n");
             }
         }
         else if (orientation=='h'){
             if(abscisse+i<10 && matrice[ordonnee][abscisse+i]==0){
-                printf("TEST bateau taille : %d n:%d %c o:%d a:%d\n",taille,i+1,orientation,ordonnee,abscisse+i); 
-                retour=0;
-                printf("reussite\n");
             }else{
                 retour=1;
-                printf("echec\n");
             }
         }else{
             retour=1;
