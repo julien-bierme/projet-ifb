@@ -45,7 +45,7 @@ struct bcomplet{ //Ensembles de toutes les cases de chaque bateaux
     int nboat;
 };
 
-struct inventory{ //inventaire des missiles
+struct inventory_s{ //inventaire des missiles
     int msimple;
     int mtactique;
     int martillerie;
@@ -56,7 +56,7 @@ int main(int argc, char const *argv[]) {
     //initialisation des structures utilisés
     struct grid grille;
     struct bcomplet boat_complet[17];
-    struct inventory inventory;
+    struct inventory_s inventory;
     struct cible coup;
 
     int nbcoup =0; //nombre de coups tirés
@@ -65,7 +65,6 @@ int main(int argc, char const *argv[]) {
 
     //test des 3 modes
     Menu = modes("Menu","Demarrer","Charger","Quitter");
-    printf("Vous avez choisis : %d",Menu);
     if (Menu == 1){ //si menu = Demarrer
 
         /*______________________________________________________________________________________________________________________________________________________________________*/
@@ -189,9 +188,7 @@ int main(int argc, char const *argv[]) {
 
         // Choix du mode et de la dificulté
         Mode = modes("Mode","Classique","Blind","Active");
-        printf("test : %d",Mode);
         Difficulte = modes("Difficulte","Facile","Moyen","Difficile");
-        printf("test : %d \n",Difficulte);
 
         grille = debut_grille();
 
@@ -202,47 +199,55 @@ int main(int argc, char const *argv[]) {
             inventory.mtactique = 10;
             inventory.mbombe = 10;
         }
-        if (Difficulte==1){
+        if (Difficulte==2){
             inventory.msimple = 10;
             inventory.martillerie = 3;
             inventory.mtactique = 5;
             inventory.mbombe = 5;
         }
-        if (Difficulte==1){
+        if (Difficulte==3){
             inventory.msimple = 15;
             inventory.martillerie = 1;
             inventory.mtactique = 4;
             inventory.mbombe = 2;
         }
         // initialisation du nombre de coups
-        nbcoup = inventory.mbombe + inventory.mtactique + inventory.martillerie + inventory.msimple;
+        nbcoup = 0;
 
+        int test_a =1;
         do {
             int check_alive;
 
+            printf("Inventory : \n missile simple = %d \n missile tactique = %d \n bombe = %d \n missile d'artillerie = %d \n",inventory.msimple,inventory.mtactique,inventory.mbombe,inventory.martillerie);
+
+            nbcoup = nbcoup+1;
             coup = Enregistrement(nbcoup);
 
             if (coup.missile == 1){
+                inventory.msimple=inventory.msimple-1;
                 grille=fire_simple(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
             if (coup.missile == 2){
+                inventory.mtactique=inventory.mtactique-1;
                 grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
             if (coup.missile == 3){
+                inventory.mbombe=inventory.mbombe-1;
                 grille=fire_bombe(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
             if (coup.missile == 4){
+                inventory.martillerie=inventory.martillerie-1;
                 grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
@@ -250,44 +255,57 @@ int main(int argc, char const *argv[]) {
             check_alive = is_alive(grille);
 
             if(check_alive == 0){
-                printf("Vous avez anéanti tous les bateaux. Félicitation !");
+                printf("Vous avez aneanti tous les bateaux. Felicitation !");
                 return 0;
             }
 
-            nbcoup = nbcoup-1;
-        }while (nbcoup != 1);
+            if((inventory.martillerie!=0) && (inventory.mbombe!=0) && (inventory.mtactique!=0) && (inventory.msimple!=0)){
+                test_a = 0;
+            }else{
+                test_a =1;
+            }
 
-        printf("Vous avez épuisé le stock de missiles. Retentez votre chance");
+        }while (test_a == 1);
+
+        printf("Vous avez epuise le stock de missiles. Retentez votre chance");
 
     }
 
     if(Menu == 2){
+        int test_a =1;
         do {
             int check_alive;
 
+            printf("Inventory : \n missile simple = %d \n missile tactique = %d \n bombe = %d \n missile d'artillerie = %d \n",inventory.msimple,inventory.mtactique,inventory.mbombe,inventory.martillerie);
+
+            nbcoup = nbcoup+1;
             coup = Enregistrement(nbcoup);
 
             if (coup.missile == 1){
+                inventory.msimple=inventory.msimple-1;
                 grille=fire_simple(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
             if (coup.missile == 2){
+                inventory.mtactique=inventory.mtactique-1;
                 grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
             if (coup.missile == 3){
+                inventory.mbombe=inventory.mbombe-1;
                 grille=fire_bombe(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
             if (coup.missile == 4){
+                inventory.martillerie=inventory.martillerie-1;
                 grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==2 ||Mode==3){
+                if (Mode ==1 ||Mode==3){
                     show_grid(grille);
                 }
             }
@@ -295,15 +313,20 @@ int main(int argc, char const *argv[]) {
             check_alive = is_alive(grille);
 
             if(check_alive == 0){
-                printf("Vous avez anéanti tous les bateaux. Félicitation !");
+                printf("Vous avez aneanti tous les bateaux. Felicitation !");
                 return 0;
             }
 
-            nbcoup = nbcoup-1;
-        }while (nbcoup != 1);
+            if((inventory.martillerie!=0) && (inventory.mbombe!=0) && (inventory.mtactique!=0) && (inventory.msimple!=0)){
+                test_a = 0;
+            }else{
+                test_a =1;
+            }
 
-        printf("Vous avez épuisé le stock de missiles. Retentez votre chance");
-        
+        }while (test_a == 1);
+
+        printf("Vous avez epuise le stock de missiles. Retentez votre chance");
+
     }
 
     return 0;
