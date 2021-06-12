@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+//intialisation de toutes les fonctions utilisés
 int modes(char* CHOIX, char* choix1,char* choix2,char* choix3);
 struct grid debut_grille();
 void show_grid();
@@ -11,75 +12,298 @@ void clean_stdin();
 struct cible Enregistrement();
 struct grid fire_simple();
 struct grid fire_tactique();
-struct bcomplet random();
 int test(int taille, int abscisse, int ordonnee, char orientation, char matrice[10][10]);
 void matrice_affich();
+struct grid fire_artillerie();
+struct grid fire_bombe();
+int is_alive();
 
 /* structure type pour des bateaux*/
-typedef struct{
+typedef struct{ //structure des cases génératices des bateaux
     char orientation;
     int taille;
     int abscisse;
     int ordonnee;
-}bateau
-;
+}bateau;
 
-struct cible{
+struct cible{ //Structure du missile tiré (Coordonées et type de missiles)
     int cibley;
     int ciblex;
     int missile;
 };
 
-struct grid{
+struct grid{ //structure de la grille
     char grille[12][12];
     int largeur;
     int longeur
 };
 
-struct bcomplet{
+struct bcomplet{ //Ensembles de toutes les cases de chaque bateaux
     int boatx;
     int boaty;
     int touche;
     int nboat;
 };
 
+struct inventory{ //inventaire des missiles
+    int msimple;
+    int mtactique;
+    int martillerie;
+    int mbombe;
+};
+
 int main(int argc, char const *argv[]) {
+    //initialisation des structures utilisés
     struct grid grille;
-    grille = debut_grille();
-    show_grid(grille);
+    struct bcomplet boat_complet[17];
+    struct inventory inventory;
+    struct cible coup;
 
-    //
+    int nbcoup =0; //nombre de coups tirés
 
-    int c=0,a=0,b=0;
+    int Menu=0, Mode=0,Difficulte=0;
 
     //test des 3 modes
-    a = modes("Menu","Demarrer","Charger","Quitter");
-    printf("test : %d",a);
-    b = modes("Mode","Classique","Blind","Active");
-    printf("test : %d",b);
-    c = modes("Difficulte","Facile","Moyen","Difficile");
-    printf("test : %d \n",c);
+    Menu = modes("Menu","Demarrer","Charger","Quitter");
+    printf("Vous avez choisis : %d",Menu);
+    if (Menu == 1){ //si menu = Demarrer
 
-    //
+        /*______________________________________________________________________________________________________________________________________________________________________*/
+        //Placement des 5 bateaux et enregistrement dans la structure test
+        //1ere Partie :
+        srand(time(0)); //initialisation de l'aléatoire
 
-    int g=0;
-    int nbcoup= 1;
+        int taille, abscisse, ordonnee, retour;  /* Init des Variables */
+        char orientation;
+        char matrice_test[10][10]={0};
+        int localint =1;
 
-    struct cible coup;
-    coup = Enregistrement(nbcoup);
+        bateau boat[5];  /* 5 Unit Bateau générateur*/
 
-    g = coup.ciblex;
-    printf("test : %d\n",coup.ciblex);
-    g = coup.cibley;
-    printf("test : %d\n",coup.cibley);
-    g = coup.missile;
-    printf("test : %d\n",coup.missile);
+        for(int nb=0; nb<4; nb++){  /* Bateau 2, 3, 4, 5 */
+            taille = nb+2;//initialisation de la taille
+            boat[nb].taille=taille;
 
-    struct bcomplet boat_complet[17];
+            //initialisation de la posotion aléatoire de l'orientation
+            int choix = rand()%2; //random entre 0 et 1
+            if (choix == 1){
+                orientation = 'h';
+            }else{
+                orientation = 'v';
+            }
+            boat[nb].orientation = orientation;
 
-    if (coup.missile == 1){
-        grille=fire_simple(coup,grille,boat_complet);
-        show_grid(grille);
+            //initialisation des coordonées générateurs entre 0 et 9 tant que le test des positions n'est pas nul
+            do{
+                abscisse = rand()%10;  /* randomise ordonnée et abscisse */
+                ordonnee = rand()%10;
+
+                retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+            }while(retour==1);
+
+            boat[nb].abscisse=abscisse; /* attribue les valeur définitive d'un bateau à la structure des cases génératrise*/
+            boat[nb].ordonnee=ordonnee;
+
+            if (boat[nb].orientation =='h'){
+                for (int i=0; i < taille; i++){
+                    //Pose les bateaux sur la matrice test d'affichage
+                    matrice_test[boat[nb].ordonnee][boat[nb].abscisse+i] = taille+'0';
+
+                    //Enregistrement des valeurs de chaque cases dans la structure bcomplet
+                    boat_complet[localint].boaty = ordonnee+1;
+                    boat_complet[localint].boatx = abscisse+i+1;
+                    boat_complet[localint].nboat = taille;
+                    boat_complet[localint].touche = 0;
+                    localint = localint+1;
+                }
+
+            }else{
+                for (int i=0; i < taille; i++) {
+                    //Pose les bateaux sur la matrice test d'affichage
+                    matrice_test[boat[nb].ordonnee+i][boat[nb].abscisse] = taille+'0';
+
+                    //Enregistrement des valeurs de chaque cases dans la structure bcomplet
+                    boat_complet[localint].boaty = ordonnee+i+1;
+                    boat_complet[localint].boatx = abscisse+1;
+                    boat_complet[localint].nboat = taille;
+                    boat_complet[localint].touche = 0;
+                    localint = localint+1;
+                }
+            }
+        }
+        /*___________________________________________________PARTIE POUR 2'eme bateau de 3______________________________________________________________________________________*/
+
+        taille = 3; //initialisation de la taille
+        boat[4].taille=taille;
+
+        //initialisation de la posotion aléatoire de l'orientation
+        int choix = rand()%2; //random entre 0 et 1
+        if (choix == 1){
+            orientation = 'h';
+        }else{
+            orientation = 'v';
+        }
+        boat[4].orientation = orientation;
+
+        //initialisation des coordonées générateurs entre 0 et 9 tant que le test des positions n'est pas nul
+        do{
+            abscisse = rand()%10;  /* randomise ordonnée et abscisse */
+            ordonnee = rand()%10;
+
+            retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+        }while(retour==1);
+
+        boat[4].abscisse=abscisse; /* attribue les valeur définitive d'un bateau */
+        boat[4].ordonnee=ordonnee;
+
+        if (boat[4].orientation =='h'){
+            for (int i=0; i < taille; i++){
+                /* Pose les bateaux sur la matrice test */
+                matrice_test[boat[4].ordonnee][boat[4].abscisse+i] = taille+'0';
+
+                //Enregistrement des valeurs de chaque cases dans la structure bcomplet
+                boat_complet[localint].boaty = ordonnee+1;
+                boat_complet[localint].boatx = abscisse+i+1;
+                boat_complet[localint].nboat = taille;
+                boat_complet[localint].touche = 0;
+                localint = localint+1;
+            }
+
+        }else{
+            for (int i=0; i < taille; i++) {
+                /* Pose les bateaux sur la matrice test */
+                matrice_test[boat[4].ordonnee+i][boat[4].abscisse] = taille+'0';
+
+                //Enregistrement des valeurs de chaque cases dans la structure bcomplet
+                boat_complet[localint].boaty = ordonnee+1+i;
+                boat_complet[localint].boatx = abscisse+1;
+                boat_complet[localint].nboat = taille;
+                boat_complet[localint].touche = 0;
+                localint = localint+1;
+            }
+        }
+        //afichage des position des bateaux sur une grille
+        //matrice_affich(matrice_test);
+        /*______________________________________________________________________________________________________________________________________________________________________*/
+
+
+        // Choix du mode et de la dificulté
+        Mode = modes("Mode","Classique","Blind","Active");
+        printf("test : %d",Mode);
+        Difficulte = modes("Difficulte","Facile","Moyen","Difficile");
+        printf("test : %d \n",Difficulte);
+
+        grille = debut_grille();
+
+        //initialisation des inventaires en fonction de la difficulté choisis
+        if (Difficulte==1){
+            inventory.msimple = 10;
+            inventory.martillerie = 10;
+            inventory.mtactique = 10;
+            inventory.mbombe = 10;
+        }
+        if (Difficulte==1){
+            inventory.msimple = 10;
+            inventory.martillerie = 3;
+            inventory.mtactique = 5;
+            inventory.mbombe = 5;
+        }
+        if (Difficulte==1){
+            inventory.msimple = 15;
+            inventory.martillerie = 1;
+            inventory.mtactique = 4;
+            inventory.mbombe = 2;
+        }
+        // initialisation du nombre de coups
+        nbcoup = inventory.mbombe + inventory.mtactique + inventory.martillerie + inventory.msimple;
+
+        do {
+            int check_alive;
+
+            coup = Enregistrement(nbcoup);
+
+            if (coup.missile == 1){
+                grille=fire_simple(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+            if (coup.missile == 2){
+                grille=fire_artillerie(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+            if (coup.missile == 3){
+                grille=fire_bombe(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+            if (coup.missile == 4){
+                grille=fire_artillerie(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+
+            check_alive = is_alive(grille);
+
+            if(check_alive == 0){
+                printf("Vous avez anéanti tous les bateaux. Félicitation !");
+                return 0;
+            }
+
+            nbcoup = nbcoup-1;
+        }while (nbcoup != 1);
+
+        printf("Vous avez épuisé le stock de missiles. Retentez votre chance");
+
+    }
+
+    if(Menu == 2){
+        do {
+            int check_alive;
+
+            coup = Enregistrement(nbcoup);
+
+            if (coup.missile == 1){
+                grille=fire_simple(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+            if (coup.missile == 2){
+                grille=fire_artillerie(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+            if (coup.missile == 3){
+                grille=fire_bombe(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+            if (coup.missile == 4){
+                grille=fire_artillerie(coup,grille,boat_complet);
+                if (Mode ==2 ||Mode==3){
+                    show_grid(grille);
+                }
+            }
+
+            check_alive = is_alive(grille);
+
+            if(check_alive == 0){
+                printf("Vous avez anéanti tous les bateaux. Félicitation !");
+                return 0;
+            }
+
+            nbcoup = nbcoup-1;
+        }while (nbcoup != 1);
+
+        printf("Vous avez épuisé le stock de missiles. Retentez votre chance");
+        
     }
 
     return 0;
@@ -180,107 +404,7 @@ int modes(char* CHOIX,char* choix1,char* choix2,char* choix3) {
 }
 
 
-/*
- * Fonction gérant l'attribution des valeur aux bateaux
- * @param
- * @return a struct - la structure bcomplet random[17]
- */
-struct bcomplet random(){
-    srand(time(0));
 
-    int taille, abscisse, ordonnee, retour;  /* Init des Variables */
-    char orientation;
-    char matrice_test[10][10]={0};
-
-    bateau boat[5];  /* 5 Unit Bateau */
-
-    for(int nb=0; nb<4; nb++){  /* Bateau 2, 3, 4, 5 */
-        taille = nb+2;
-        int choix = rand()%2;
-        if (choix == 1){
-            orientation = 'h';
-        }else{
-            orientation = 'v';
-        }
-        boat[nb].orientation = orientation;
-        boat[nb].taille=taille;
-
-        do{
-            abscisse = rand()%10;  /* randomise ordonnée et abscisse */
-            ordonnee = rand()%10;
-
-            retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
-        }while(retour==1);
-
-        boat[nb].abscisse=abscisse; /* attribue les valeur définitive d'un bateau */
-        boat[nb].ordonnee=ordonnee;
-
-        if (boat[nb].orientation =='h'){  /* Pose les bateaux sur la matrice test */
-            for (int i=0; i < taille; i++){
-                matrice_test[boat[nb].ordonnee][boat[nb].abscisse+i] = taille+'0';
-            }
-
-        }else{
-            for (int i=0; i < taille; i++) {
-                matrice_test[boat[nb].ordonnee+i][boat[nb].abscisse] = taille+'0';
-            }
-        }
-        //matrice_affich(matrice_test);
-    }
-/*___________________________________________________PARTIE POUR 2'eme bateau de 3______________________________________________________________________________________*/
-
-    taille = 3;
-    int choix = rand()%2;
-    if (choix == 1){
-        orientation = 'h';
-    }else{
-        orientation = 'v';
-    }
-    boat[4].orientation = orientation;
-    boat[4].taille=taille;
-    do{
-        abscisse = rand()%10;  /* randomise ordonnée et abscisse */
-        ordonnee = rand()%10;
-
-        retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
-    }while(retour==1);
-
-    boat[4].abscisse=abscisse; /* attribue les valeur définitive d'un bateau */
-    boat[4].ordonnee=ordonnee;
-
-    if (boat[4].orientation =='h'){  /* Pose les bateaux sur la matrice test */
-        for (int i=0; i < taille; i++){
-            matrice_test[boat[4].ordonnee][boat[4].abscisse+i] = taille+'0';
-        }
-
-    }else{
-        for (int i=0; i < taille; i++) {
-            matrice_test[boat[4].ordonnee+i][boat[4].abscisse] = taille+'0';
-        }
-    }
-    //matrice_affich(matrice_test);
-/*______________________________________________________________________________________________________________________________________________________________________*/
-
-
-
-    struct bcomplet bateaux[17];
-    int incrementation = 0;
-    for (int i = 0; i < 10; i++)
-    {
-        for (int j = 0; j < 10; j++)
-        {
-            if (matrice_test[i][j] != '0'){
-                incrementation = incrementation +1;
-                bateaux[incrementation].nboat = atoi(&matrice_test[i][j]);
-                bateaux[incrementation].boaty = i;
-                bateaux[incrementation].boatx = j;
-                bateaux[incrementation].touche = 0;
-            }
-        }
-    }
-
-    return bateaux[17];
-}
 
 /*
  * Fonction qui va tester si valeur du bateau peut être contenu dans toute la grille sans se chevaucher
@@ -426,7 +550,7 @@ struct cible Enregistrement(int nbcoup){
 }
 
 /*
- * Fonction qui tire un missile simple en appelant la fonction Enregistrement
+ * Fonction qui tire un missile simple
  * @param struct cible msimple - structure de la cible
  * @param struct grid grille1 - structure de la grille
  * @param struct bcomplet boat_completms[17] - structure des 17 cases des bateaux
@@ -439,14 +563,16 @@ struct grid fire_simple(struct cible msimple,struct grid grille1,struct bcomplet
         if (msimple.ciblex == boat_completms[i].boatx && msimple.cibley == boat_completms[i].boaty){
             grille1.grille[boat_completms[i].boaty][boat_completms[i].boatx] = 'X';
         } else{
-            grille1.grille[msimple.cibley][msimple.ciblex] = 'O';
+            if(grille1.grille[msimple.cibley][msimple.ciblex] != 'X'){
+                grille1.grille[msimple.cibley][msimple.ciblex] = 'O';
+            }
         }
     }
     return grille1;
 }
 
 /*
- * Fonction qui tire un missile tactique en appelant la fonction Enregistrement
+ * Fonction qui tire un missile tactique
  * @param struct cible mtactique - structure de la cible
  * @param struct grid grille2 - structure de la grille
  * @param struct bcomplet boat_completmt[17] - structure des 17 cases des bateaux
@@ -469,10 +595,184 @@ struct grid fire_tactique(struct cible mtactique,struct grid grille2,struct bcom
             }
 
         } else{
-            grille2.grille[mtactique.cibley][mtactique.ciblex] = 'O';
+            if(grille2.grille[mtactique.cibley][mtactique.ciblex] != 'X'){
+                grille2.grille[mtactique.cibley][mtactique.ciblex] = 'O';
+            }
         }
+        coupfatal =0;
     }
     return grille2;
+}
+
+/*
+ * Fonction qui tire un missile d'artillerie
+ * @param struct cible martillerie - structure de la cible
+ * @param struct grid grille3 - structure de la grille
+ * @param struct bcomplet boat_completma[17] - structure des 17 cases des bateaux
+ * @return struct grid grille3 - structure de la grille
+ */
+struct grid fire_artillerie(struct cible martillerie,struct grid grille3,struct bcomplet boat_completma[17]){
+
+    int test =0;
+
+    for (int i = 1; i < 18; i++)
+    {
+        for (int j = 1; j < 11; j++) {
+            if (j == boat_completma[i].boatx && martillerie.cibley == boat_completma[i].boaty) {
+                grille3.grille[boat_completma[i].boaty][j] = 'X';
+                test =1;
+            } else if (martillerie.ciblex == boat_completma[i].boatx && j == boat_completma[i].boaty) {
+                grille3.grille[i][boat_completma[j].boatx] = 'X';
+                test = 1;
+            } else {
+                if (grille3.grille[j][martillerie.ciblex] != 'X'){
+                    grille3.grille[j][martillerie.ciblex] = 'O';
+                }
+                if (grille3.grille[martillerie.cibley][j] != 'X'){
+                    grille3.grille[martillerie.cibley][j] = 'O';
+                }
+            }
+        }
+
+    }
+    return grille3;
+}
+
+/*
+ * Fonction qui tire un missile bombe
+ * @param struct cible mbombe - structure de la cible
+ * @param struct grid grille4 - structure de la grille
+ * @param struct bcomplet boat_completmb[17] - structure des 17 cases des bateaux
+ * @return struct grid grille4 - structure de la grille
+ */
+struct grid fire_bombe(struct cible mbombe,struct grid grille4,struct bcomplet boat_completmb[17]){
+
+
+    for (int i = 1; i < 18; i++)
+    {
+        if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty][boat_completmb[i].boatx] = 'X';
+        } else{
+            grille4.grille[mbombe.cibley][mbombe.ciblex] = 'O';
+        }
+        if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley -2 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty-2][boat_completmb[i].boatx] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley-2][mbombe.ciblex] != 'X'){
+                grille4.grille[mbombe.cibley-2][mbombe.ciblex] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex-1 == boat_completmb[i].boatx && mbombe.cibley-1 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty-1][boat_completmb[i].boatx-1] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley-1][mbombe.ciblex-1] != 'X'){
+                grille4.grille[mbombe.cibley-1][mbombe.ciblex-1] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley -1 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty-1][boat_completmb[i].boatx] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley-1][mbombe.ciblex] != 'X'){
+                grille4.grille[mbombe.cibley-1][mbombe.ciblex] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex+1 == boat_completmb[i].boatx && mbombe.cibley-1 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty-1][boat_completmb[i].boatx+1] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley-1][mbombe.ciblex+1] != 'X'){
+                grille4.grille[mbombe.cibley-1][mbombe.ciblex+1] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex-2 == boat_completmb[i].boatx && mbombe.cibley == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty][boat_completmb[i].boatx-2] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley][mbombe.ciblex-2] != 'X'){
+                grille4.grille[mbombe.cibley][mbombe.ciblex-2] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex-1 == boat_completmb[i].boatx && mbombe.cibley == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty][boat_completmb[i].boatx-1] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley][mbombe.ciblex-1] != 'X'){
+                grille4.grille[mbombe.cibley][mbombe.ciblex-1] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex+1 == boat_completmb[i].boatx && mbombe.cibley == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty][boat_completmb[i].boatx+1] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley][mbombe.ciblex+1] != 'X'){
+                grille4.grille[mbombe.cibley][mbombe.ciblex+1] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex+2 == boat_completmb[i].boatx && mbombe.cibley == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty][boat_completmb[i].boatx+2] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley][mbombe.ciblex+2] != 'X'){
+                grille4.grille[mbombe.cibley][mbombe.ciblex+2] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex-1 == boat_completmb[i].boatx && mbombe.cibley+1 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty+1][boat_completmb[i].boatx-1] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley+1][mbombe.ciblex-1] != 'X'){
+                grille4.grille[mbombe.cibley+1][mbombe.ciblex-1] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex+1 == boat_completmb[i].boatx && mbombe.cibley+1 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty+1][boat_completmb[i].boatx+1] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley+1][mbombe.ciblex+1] != 'X'){
+                grille4.grille[mbombe.cibley+1][mbombe.ciblex+1] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley+1 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty+1][boat_completmb[i].boatx] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley+1][mbombe.ciblex] != 'X'){
+                grille4.grille[mbombe.cibley+1][mbombe.ciblex] = 'O';
+            }
+        }
+
+        if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley+2 == boat_completmb[i].boaty){
+            grille4.grille[boat_completmb[i].boaty+2][boat_completmb[i].boatx] = 'X';
+        } else{
+            if(grille4.grille[mbombe.cibley+2][mbombe.ciblex] != 'X'){
+                grille4.grille[mbombe.cibley+2][mbombe.ciblex] = 'O';
+            }
+        }
+    }
+    return grille4;
+}
+
+/*
+ * Fonction qui check si un bateau a été touché ou non et donne le nombre de cases qu'il reste à toucher
+ * @param struct grid grille5 - structure de la grille
+ * @return an integer - check : le nombre de cases de bateaux qu'il reste a anéantir
+ */
+int is_alive (struct grid grille5){
+
+    int test_local=0,check=17;
+    for (int i = 1; i < 18; i++)
+    {
+        for (int j = 1; j < 18; j++)
+        {
+            if (grille5.grille[i][j] == 'X'){
+                test_local=test_local+1;
+            }
+        }
+    }
+    check = 17-test_local;
+    return check;
 }
 
 /*
