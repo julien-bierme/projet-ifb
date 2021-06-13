@@ -214,118 +214,120 @@ int main(int argc, char const *argv[]) {
         // initialisation du nombre de coups
         nbcoup = 0;
 
-        int test_a =1;
+        int test_a =1; //variable test pour l'inventory missile
         do {
-            int check_alive;
+            int check_alive; //varible de la fonction is_alive
 
+            //écriture de l'inventaire
             printf("Inventory : \n missile simple = %d \n missile tactique = %d \n bombe = %d \n missile d'artillerie = %d \n",inventory.msimple,inventory.mtactique,inventory.mbombe,inventory.martillerie);
 
-            nbcoup = nbcoup+1;
-            coup = Enregistrement(nbcoup);
+            nbcoup = nbcoup+1; //incrémentation du nombre de coups
+            coup = Enregistrement(nbcoup); //Enregistrement de la cible (coordonée et type de missile) dans la structure cible
 
-            if (coup.missile == 1){
-                inventory.msimple=inventory.msimple-1;
-                grille=fire_simple(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 1){//si missile simple
+                inventory.msimple=inventory.msimple-1;//décrémentation des missiles simples de l'inventaire
+                grille=fire_simple(coup,grille,boat_complet); //Tir du missile simple sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
-            if (coup.missile == 2){
-                inventory.mtactique=inventory.mtactique-1;
-                grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 2){//si missile tactique
+                inventory.mtactique=inventory.mtactique-1; //décrémentation des missiles tactiques de l'inventaire
+                grille=fire_artillerie(coup,grille,boat_complet); //Tir du missile tactique sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
-            if (coup.missile == 3){
-                inventory.mbombe=inventory.mbombe-1;
-                grille=fire_bombe(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 3){ //si missile bombe
+                inventory.mbombe=inventory.mbombe-1; //décrémentation des missiles bombes de l'inventaire
+                grille=fire_bombe(coup,grille,boat_complet); //Tir du missile bombes sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
-            if (coup.missile == 4){
-                inventory.martillerie=inventory.martillerie-1;
-                grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 4){ //si missile artillerie
+                inventory.martillerie=inventory.martillerie-1; //décrémentation des missiles artilleries de l'inventaire
+                grille=fire_artillerie(coup,grille,boat_complet); //Tir du missile artillerie sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
 
-            check_alive = is_alive(grille);
+            check_alive = is_alive(grille); //veriffier que tous les bateaux ne soient pas coulés
 
-            if(check_alive == 0){
+            if(check_alive == 0){ //si tous les bateaux sont coulés
                 printf("Vous avez aneanti tous les bateaux. Felicitation !");
                 return 0;
             }
 
             if((inventory.martillerie!=0) && (inventory.mbombe!=0) && (inventory.mtactique!=0) && (inventory.msimple!=0)){
-                test_a = 0;
+                test_a = 0; //si l'inventaire est vide test_a = 1 sinon test_a =0
             }else{
                 test_a =1;
             }
 
         }while (test_a == 1);
 
-        printf("Vous avez epuise le stock de missiles. Retentez votre chance");
+        printf("Vous avez epuise le stock de missiles. Retentez votre chance"); //tous les missiles ont étés épuisés
 
     }
 
     if(Menu == 2){
-        int test_a =1;
+        int test_a =1; //variable test pour l'inventory missile
         do {
-            int check_alive;
+            int check_alive; //varible de la fonction is_alive
 
+            //écriture de l'inventaire
             printf("Inventory : \n missile simple = %d \n missile tactique = %d \n bombe = %d \n missile d'artillerie = %d \n",inventory.msimple,inventory.mtactique,inventory.mbombe,inventory.martillerie);
 
-            nbcoup = nbcoup+1;
-            coup = Enregistrement(nbcoup);
+            nbcoup = nbcoup+1; //incrémentation du nombre de coups
+            coup = Enregistrement(nbcoup); //Enregistrement de la cible (coordonée et type de missile) dans la structure cible
 
-            if (coup.missile == 1){
-                inventory.msimple=inventory.msimple-1;
-                grille=fire_simple(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 1){//si missile simple
+                inventory.msimple=inventory.msimple-1;//décrémentation des missiles simples de l'inventaire
+                grille=fire_simple(coup,grille,boat_complet); //Tir du missile simple sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
-            if (coup.missile == 2){
-                inventory.mtactique=inventory.mtactique-1;
-                grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 2){//si missile tactique
+                inventory.mtactique=inventory.mtactique-1; //décrémentation des missiles tactiques de l'inventaire
+                grille=fire_artillerie(coup,grille,boat_complet); //Tir du missile tactique sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
-            if (coup.missile == 3){
-                inventory.mbombe=inventory.mbombe-1;
-                grille=fire_bombe(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 3){ //si missile bombe
+                inventory.mbombe=inventory.mbombe-1; //décrémentation des missiles bombes de l'inventaire
+                grille=fire_bombe(coup,grille,boat_complet); //Tir du missile bombes sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
-            if (coup.missile == 4){
-                inventory.martillerie=inventory.martillerie-1;
-                grille=fire_artillerie(coup,grille,boat_complet);
-                if (Mode ==1 ||Mode==3){
+            if (coup.missile == 4){ //si missile artillerie
+                inventory.martillerie=inventory.martillerie-1; //décrémentation des missiles artilleries de l'inventaire
+                grille=fire_artillerie(coup,grille,boat_complet); //Tir du missile artillerie sur la grille et enregistrement de la grille
+                if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
             }
 
-            check_alive = is_alive(grille);
+            check_alive = is_alive(grille); //veriffier que tous les bateaux ne soient pas coulés
 
-            if(check_alive == 0){
+            if(check_alive == 0){ //si tous les bateaux sont coulés
                 printf("Vous avez aneanti tous les bateaux. Felicitation !");
                 return 0;
             }
 
             if((inventory.martillerie!=0) && (inventory.mbombe!=0) && (inventory.mtactique!=0) && (inventory.msimple!=0)){
-                test_a = 0;
+                test_a = 0; //si l'inventaire est vide test_a = 1 sinon test_a =0
             }else{
                 test_a =1;
             }
 
         }while (test_a == 1);
 
-        printf("Vous avez epuise le stock de missiles. Retentez votre chance");
+        printf("Vous avez epuise le stock de missiles. Retentez votre chance"); //tous les missiles ont étés épuisés
 
     }
 
@@ -336,21 +338,22 @@ int main(int argc, char const *argv[]) {
 /*
  * Fonction qui réinitialise la structure grid
  * @param
- * @return struct grid debut_grille - structure de la grille
+ * @return grille0 - structure de la grille
  */
 struct grid debut_grille(void){
-    struct grid grille1;
+    struct grid grille0; //définition de la structure grille0
 
+    //définition de la grille locale vide
     char glocal[12][12] = {" ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"," ~~~~~~~~~~"};
 
-    for (int i = 1; i < 11; i++)
+    for (int i = 1; i < 11; i++) //pour chaque cases de la grille locale l'implémeté dans la grille de la structure grille
     {
         for (int j = 1; j < 11; j++)
         {
-            grille1.grille[i][j]=glocal[i][j];
+            grille0.grille[i][j]=glocal[i][j];
         }
     }
-    return grille1;
+    return grille0; //retourner la structure grille0
 }
 
 /*
@@ -361,22 +364,23 @@ struct grid debut_grille(void){
 void show_grid(struct grid grille0){
 
 
-    printf(" ");
-    for (int i = 1; i < 11; i++)
+    printf(" "); //formatage
+    for (int i = 1; i < 11; i++) //affichage des 123... en absices
     {
-        printf(" ");
+        printf(" ");//formatage
         printf("%d",i);
     }
     printf("\n");
+
     for (int i = 1; i < 11; i++)
     {
-        printf("%d",i);
+        printf("%d",i); //affichage des 123... en ordonnées
         for (int j = 1; j < 11; j++)
         {
             if(j==1 && i!=10){
-                printf(" ");
+                printf(" "); //formatage
             }
-            printf("%c ",grille0.grille[i][j]);
+            printf("%c ",grille0.grille[i][j]); //affichage des cases de la grille
         }
         printf("\n");
     }
@@ -430,7 +434,7 @@ int modes(char* CHOIX,char* choix1,char* choix2,char* choix3) {
 
 
 /*
- * Fonction qui va tester si valeur du bateau peut être contenu dans toute la grille sans se chevaucher
+ * Fonction qui va tester si valeur du bateau peut être contenu dans toute la grille sans se chevaucher ou dépasser
  * @param a integer - la taille
  * @param a integer - l'abscisse
  * @param a integer - l'ordonee
@@ -439,29 +443,29 @@ int modes(char* CHOIX,char* choix1,char* choix2,char* choix3) {
  * @return a integer - le test 0 ou 1
  */
 int test(int taille, int abscisse, int ordonnee, char orientation, char matrice[10][10]){  /* vérifie possibibilité poser bateau */
-    int retour=0;
+    int retour=0; //variable de test 1 : problème ou 0 : null
     for (int i = 0; i < taille; i++){
-        if (orientation=='v'){
+        if (orientation=='v'){ //test des bateaux si vertical que ils ne dépassent pas et que la place ne soit pas déja prise
             if (ordonnee+i<10 && matrice[ordonnee+i][abscisse]==0){
             }else{
                 retour=1;
             }
         }
-        else if (orientation=='h'){
+        else if (orientation=='h'){ //test des bateaux si horizontal que ils ne dépassent pas et que la place ne soit pas déja prise
             if(abscisse+i<10 && matrice[ordonnee][abscisse+i]==0){
             }else{
                 retour=1;
             }
         }else{
-            retour=1;
+            retour=1; //cette situation ne devrait jamais arriver
         }
     }
-    return retour;
+    return retour; //retourner le test 1 ou 0
 }
 
 /*
- * Fonction qui affiche la matrice test en une grille 10*10 (dev)
- * @param a char - la matrice test
+ * Fonction qui affiche la matrice test en une grille 10*10 (dev) pour voir si tous les bateaux sont bien placés
+ * @param a char** - la matrice test
  * @return
  */
 void matrice_affich(char matrice[10][10]){
@@ -486,18 +490,18 @@ void matrice_affich(char matrice[10][10]){
  * @return a integer - la coordonnée de la cible
  */
 int Choix_cible(int nbcoup, char* message) {
+
     int cible = 0;
-    char keycible;
-    char antibug;
+    char keycible; //variable locale de prise de texte
 
 
     printf("Nous allons proceder au largage du projectile numero : %d. Quels sont les ordres ?\n", nbcoup);
 
-    printf("%s \n",message);
-    scanf("%c", &keycible);
-    clean_stdin();
-    cible = atoi(&keycible);
-    if (cible < 1 || cible > 10) {
+    printf("%s \n",message); //afficher le message de lancement
+    scanf("%c", &keycible); //lecture du nombre en format caractère
+    clean_stdin(); //vidage du buffer
+    cible = atoi(&keycible); //transformation du char en entier
+    if (cible < 1 || cible > 10) { //si la cible n'est pas un entier entre 1 et 10 refaire la lecture et transformation
         do {
             printf("Ecrire un entier entre 1 et 10 \n");
             printf("%s \n",message);
@@ -506,8 +510,8 @@ int Choix_cible(int nbcoup, char* message) {
             cible = atoi(&keycible);
         } while (cible < 1 || cible > 10);
     }
-    printf("Vous avez choisis : %d\n \n",cible);
-    return cible;
+    printf("Vous avez choisis : %d\n \n",cible); //Vérification usager
+    return cible; //retourner la cible de type entier
 }
 
 /*
@@ -517,7 +521,6 @@ int Choix_cible(int nbcoup, char* message) {
  */
 int Choix_missile(){
     char keycible;
-    char antibug;
     int missile = 0;
 
     printf("Choisir le type de missile: \n");
@@ -525,10 +528,10 @@ int Choix_missile(){
     printf("2 : missile tactique\n");
     printf("3 : bombe\n");
     printf("4 : missile de croisiere\n");
-    scanf("%c", &keycible);
-    clean_stdin();
-    missile = atoi(&keycible);
-    if (missile < 1 || missile > 4) {
+    scanf("%c", &keycible); //lecture du nombre en format caractère
+    clean_stdin(); //vidage buffer
+    missile = atoi(&keycible); //transformation du char en entier
+    if (missile < 1 || missile > 4) { //si la cible n'est pas un entier entre 1 et 10 refaire la lecture et transformation
         do {
             printf("Ecrire 1 2  3 ou 4 : \n");
             printf("Choisir le type de missile: \n");
@@ -552,7 +555,7 @@ int Choix_missile(){
         default:printf("Erreur : cela ne devrait jamais arriver \n \n" );
             break;
     }
-    return missile;
+    return missile; //retourner le type de missile de type entier
 }
 
 /*
@@ -573,7 +576,7 @@ struct cible Enregistrement(int nbcoup){
 }
 
 /*
- * Fonction qui tire un missile simple
+ * Fonction qui tire un missile simple et retourne la grille
  * @param struct cible msimple - structure de la cible
  * @param struct grid grille1 - structure de la grille
  * @param struct bcomplet boat_completms[17] - structure des 17 cases des bateaux
@@ -581,17 +584,17 @@ struct cible Enregistrement(int nbcoup){
  */
 struct grid fire_simple(struct cible msimple,struct grid grille1,struct bcomplet boat_completms[17]){
 
-    for (int i = 1; i < 18; i++)
+    for (int i = 1; i < 18; i++) //pour toutes les cases de bateaux
     {
-        if (msimple.ciblex == boat_completms[i].boatx && msimple.cibley == boat_completms[i].boaty){
-            grille1.grille[boat_completms[i].boaty][boat_completms[i].boatx] = 'X';
-        } else{
+        if (msimple.ciblex == boat_completms[i].boatx && msimple.cibley == boat_completms[i].boaty){ //si la cible correspond à une case de bateau
+            grille1.grille[boat_completms[i].boaty][boat_completms[i].boatx] = 'X'; //mettre à jour la grille avec un X sur cette case
+        } else{ //sinon si cette la case de la cible n'est pas déja update, mettre à jour la grille avec un O sur cette case
             if(grille1.grille[msimple.cibley][msimple.ciblex] != 'X'){
                 grille1.grille[msimple.cibley][msimple.ciblex] = 'O';
             }
         }
     }
-    return grille1;
+    return grille1; //retourne la grille updatée
 }
 
 /*
@@ -603,28 +606,28 @@ struct grid fire_simple(struct cible msimple,struct grid grille1,struct bcomplet
  */
 struct grid fire_tactique(struct cible mtactique,struct grid grille2,struct bcomplet boat_completmt[17]){
 
-    int coupfatal=0;
+    int coupfatal=0; //variable pour voir si une case du bateau a été touché
 
-    for (int i = 1; i < 18; i++)
+    for (int i = 1; i < 18; i++) //pour toutes les cases de bateaux
     {
-        if (mtactique.ciblex == boat_completmt[i].boatx && mtactique.cibley == boat_completmt[i].boaty){
-            grille2.grille[boat_completmt[i].boaty][boat_completmt[i].boatx] = 'X';
-            coupfatal = coupfatal +1;
+        if (mtactique.ciblex == boat_completmt[i].boatx && mtactique.cibley == boat_completmt[i].boaty){ //si la cible correspond à une case de bateau
+            grille2.grille[boat_completmt[i].boaty][boat_completmt[i].boatx] = 'X'; //mettre à jour la grille avec un X sur cette case
+            coupfatal = coupfatal +1; //imcrémenter la variable coup fatale
 
             for (int j = 1; j < 18; j++){
-                if (coupfatal != 0 && boat_completmt[j].nboat == boat_completmt[i].nboat){
-                    grille2.grille[boat_completmt[j].boaty][boat_completmt[j].boatx] = 'X';
+                if (coupfatal != 0 && boat_completmt[j].nboat == boat_completmt[i].nboat){ //si le  numero de bateau touché correspond à un autre numéro de case
+                    grille2.grille[boat_completmt[j].boaty][boat_completmt[j].boatx] = 'X'; //mettre à jour la grille avec un X sur cette case
                 }
             }
 
-        } else{
+        } else{ //sinon si cette la case de la cible n'est pas déja update, mettre à jour la grille avec un O sur cette case
             if(grille2.grille[mtactique.cibley][mtactique.ciblex] != 'X'){
                 grille2.grille[mtactique.cibley][mtactique.ciblex] = 'O';
             }
         }
-        coupfatal =0;
+        coupfatal =0; //réinitialisation de la variable coup fatal
     }
-    return grille2;
+    return grille2; //retourner la grille
 }
 
 /*
@@ -636,18 +639,15 @@ struct grid fire_tactique(struct cible mtactique,struct grid grille2,struct bcom
  */
 struct grid fire_artillerie(struct cible martillerie,struct grid grille3,struct bcomplet boat_completma[17]){
 
-    int test =0;
 
-    for (int i = 1; i < 18; i++)
+    for (int i = 1; i < 18; i++) //pour chaque cases de bateau
     {
-        for (int j = 1; j < 11; j++) {
-            if (j == boat_completma[i].boatx && martillerie.cibley == boat_completma[i].boaty) {
-                grille3.grille[boat_completma[i].boaty][j] = 'X';
-                test =1;
-            } else if (martillerie.ciblex == boat_completma[i].boatx && j == boat_completma[i].boaty) {
-                grille3.grille[i][boat_completma[j].boatx] = 'X';
-                test = 1;
-            } else {
+        for (int j = 1; j < 11; j++) { //entier de 1 à 10
+            if (j == boat_completma[i].boatx && martillerie.cibley == boat_completma[i].boaty) { //si la cible en ordonné et un entier de 1 à 10 en abscisse correspond à une case de bateau
+                grille3.grille[boat_completma[i].boaty][j] = 'X'; //mettre à jour la grille avec un X sur cette case
+            } else if (martillerie.ciblex == boat_completma[i].boatx && j == boat_completma[i].boaty) { //si la cible en ordonné et un entier de 1 à 10 en abscisse correspond à une case de bateau
+                grille3.grille[i][boat_completma[j].boatx] = 'X'; //mettre à jour la grille avec un X sur cette case
+            } else { //sinon si cette la case de la cible n'est pas déja update, mettre à jour la grille avec un O sur cette case
                 if (grille3.grille[j][martillerie.ciblex] != 'X'){
                     grille3.grille[j][martillerie.ciblex] = 'O';
                 }
@@ -658,7 +658,7 @@ struct grid fire_artillerie(struct cible martillerie,struct grid grille3,struct 
         }
 
     }
-    return grille3;
+    return grille3; //retourner la grille
 }
 
 /*
@@ -671,13 +671,17 @@ struct grid fire_artillerie(struct cible martillerie,struct grid grille3,struct 
 struct grid fire_bombe(struct cible mbombe,struct grid grille4,struct bcomplet boat_completmb[17]){
 
 
-    for (int i = 1; i < 18; i++)
+    for (int i = 1; i < 18; i++) // Pour toutes les cases de bateaux
     {
-        if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley == boat_completmb[i].boaty){
-            grille4.grille[boat_completmb[i].boaty][boat_completmb[i].boatx] = 'X';
-        } else{
-            grille4.grille[mbombe.cibley][mbombe.ciblex] = 'O';
+        /*Les scéma du missile simple se répète pour chaque cases touché par la bombe*/
+        if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley == boat_completmb[i].boaty){ //si la cible correspond à une case de bateau
+            grille4.grille[boat_completmb[i].boaty][boat_completmb[i].boatx] = 'X'; //mettre à jour la grille avec un 'X' sur cette case
+        } else{ //sinon si cette la case de la cible n'est pas déja update, mettre à jour la grille avec un O sur cette case
+            if(grille4.grille[mbombe.cibley][mbombe.ciblex] != 'X'){
+                grille4.grille[mbombe.cibley][mbombe.ciblex] = 'O';
+            }
         }
+
         if (mbombe.ciblex == boat_completmb[i].boatx && mbombe.cibley -2 == boat_completmb[i].boaty){
             grille4.grille[boat_completmb[i].boaty-2][boat_completmb[i].boatx] = 'X';
         } else{
@@ -784,18 +788,19 @@ struct grid fire_bombe(struct cible mbombe,struct grid grille4,struct bcomplet b
  */
 int is_alive (struct grid grille5){
 
-    int test_local=0,check=17;
-    for (int i = 1; i < 18; i++)
+    int test_local=0,check=17; //variable locale et variable renvoyé
+
+    for (int i = 1; i < 11; i++) //pour chaque ordonnées de la grille
     {
-        for (int j = 1; j < 18; j++)
+        for (int j = 1; j < 11; j++) // pour chaque abscisse de la grille
         {
-            if (grille5.grille[i][j] == 'X'){
-                test_local=test_local+1;
+            if (grille5.grille[i][j] == 'X'){ //si une case de la grille contient le caractère X
+                test_local=test_local+1; //incrémenter 1 au test local
             }
         }
     }
     check = 17-test_local;
-    return check;
+    return check; //retourner le nombre de cases non touché
 }
 
 /*
