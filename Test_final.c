@@ -215,8 +215,11 @@ int main(int argc, char const *argv[]) {
         nbcoup = 0;
 
         int test_a =1; //variable test pour l'inventory missile
+        int timer =0; //variable pour le mode active
         do {
             int check_alive; //varible de la fonction is_alive
+
+            timer = timer +1; //incrémentation du timer
 
             //écriture de l'inventaire
             printf("Inventory : \n missile simple = %d \n missile tactique = %d \n bombe = %d \n missile d'artillerie = %d \n",inventory.msimple,inventory.mtactique,inventory.mbombe,inventory.martillerie);
@@ -251,6 +254,48 @@ int main(int argc, char const *argv[]) {
                 if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
+            }
+
+            if ((Mode==3) && (timer==2)){ //si le mode est Active et le timer est à deux tour
+                int random_nb =0; //variable aléatoire de bateau
+                int random_deplacement=1; //variable aléatoire de déplacement
+
+                timer = 0;//reinitialisation du timer
+
+                //Création du déplacement entre 1 et 3 tant que le test des positions n'est pas nul
+                do{
+                    random_nb = rand()%4;
+                    random_deplacement = rand()%3+1;
+
+                    if (boat[random_nb].orientation =='h'){
+                        abscisse = boat[random_nb].abscisse + random_deplacement;
+                        ordonnee = boat[random_nb].ordonnee;
+                    }
+                    if (boat[random_nb].orientation =='v'){
+                        abscisse = boat[random_nb].abscisse;
+                        ordonnee = boat[random_nb].ordonnee + random_deplacement;
+                    }
+                    retour=test(taille, abscisse, ordonnee, orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+                }while(retour==1);
+
+                //Enregistrement des nouvelless valeurs de chaque cases dans la structure boat et bcomplet
+                if (boat[random_nb].orientation =='h'){
+                    boat[random_nb].abscisse = boat[random_nb].abscisse + random_deplacement;
+                    for (int i = 1; i < 15; i++) {
+                        if (boat_complet[i].nboat == random_nb +2){
+                            boat_complet[i].boatx = boat_complet[i].boatx+random_deplacement;
+                        }
+                    }
+                }
+                if (boat[random_nb].orientation =='v'){
+                    boat[random_nb].ordonnee = boat[random_nb].ordonnee + random_deplacement;
+                    for (int i = 1; i < 15; i++) {
+                        if (boat_complet[i].nboat == random_nb +2){
+                            boat_complet[i].boaty = boat_complet[i].boaty+random_deplacement;
+                        }
+                    }
+                }
+                printf("Un bateau a été déplacé de %d cases \n",random_deplacement);
             }
 
             check_alive = is_alive(grille); //veriffier que tous les bateaux ne soient pas coulés
@@ -274,6 +319,13 @@ int main(int argc, char const *argv[]) {
 
     if(Menu == 2){
         int test_a =1; //variable test pour l'inventory missile
+        int timer =0,retour =1; //variable compteur et test pour le mode Active
+        int abscisse,ordonnee; //variables pour le déplecement de coordonées mode Active
+
+        //varaible donné par fonction save load
+        bateau boat[5];
+        char matrice_test[10][10];
+
         do {
             int check_alive; //varible de la fonction is_alive
 
@@ -310,6 +362,48 @@ int main(int argc, char const *argv[]) {
                 if (Mode ==1 ||Mode==3){ //si le mode n'est pas Blind, afficher la grille
                     show_grid(grille);
                 }
+            }
+
+            if ((Mode==3) && (timer==2)){ //si le mode est Active et le timer est à deux tour
+                int random_nb =0; //variable aléatoire de bateau
+                int random_deplacement=1; //variable aléatoire de déplacement
+
+                timer = 0;//reinitialisation du timer
+
+                //Création du déplacement entre 1 et 3 tant que le test des positions n'est pas nul
+                do{
+                    random_nb = rand()%4;
+                    random_deplacement = rand()%3+1;
+
+                    if (boat[random_nb].orientation =='h'){
+                        abscisse = boat[random_nb].abscisse + random_deplacement;
+                        ordonnee = boat[random_nb].ordonnee;
+                    }
+                    if (boat[random_nb].orientation =='v'){
+                        abscisse = boat[random_nb].abscisse;
+                        ordonnee = boat[random_nb].ordonnee + random_deplacement;
+                    }
+                    retour=test(random_nb +2, abscisse, ordonnee, boat[random_nb].orientation, matrice_test); /* attribue une valeur à retour pour savoir si la fonction retour est ok */
+                }while(retour==1);
+
+                //Enregistrement des nouvelless valeurs de chaque cases dans la structure boat et bcomplet
+                if (boat[random_nb].orientation =='h'){
+                    boat[random_nb].abscisse = boat[random_nb].abscisse + random_deplacement;
+                    for (int i = 1; i < 15; i++) {
+                        if (boat_complet[i].nboat == random_nb +2){
+                            boat_complet[i].boatx = boat_complet[i].boatx+random_deplacement;
+                        }
+                    }
+                }
+                if (boat[random_nb].orientation =='v'){
+                    boat[random_nb].ordonnee = boat[random_nb].ordonnee + random_deplacement;
+                    for (int i = 1; i < 15; i++) {
+                        if (boat_complet[i].nboat == random_nb +2){
+                            boat_complet[i].boaty = boat_complet[i].boaty+random_deplacement;
+                        }
+                    }
+                }
+                printf("Un bateau a été déplacé de %d cases \n",random_deplacement);
             }
 
             check_alive = is_alive(grille); //veriffier que tous les bateaux ne soient pas coulés
